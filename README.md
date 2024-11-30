@@ -8,21 +8,19 @@ A Named Entity Recognition (NER) and document type classification project that c
   - BERT-based NER model for sequence classification
   - T5-based model with encoder-only architecture for enhanced token-level predictions
 - Mistral integration for intelligent document-level labeling
-- Support for 8 entity types: PERSON, ORGANIZATION, LOCATION, DATE, TIME, MONEY, PERCENT, OTHER
+- Support for various entity types and document types
 - Advanced training features:
   - Early stopping and model checkpointing
   - Configurable dropout rates
-  - Attention map visualization
   - Optional encoder layer freezing (T5)
 - Comprehensive visualization suite:
   - Learning curves
-  - Attention patterns
   - Training metrics
 - Extensive test suite with pytest
 
 ## Requirements
 
-- Python 3.8+
+- Python 3.11+
 - Poetry for dependency management
 - Mistral API key for document labeling
 
@@ -99,8 +97,7 @@ pytest
 pytest --cov=ner_doc_classification
 
 # Run specific test files
-pytest tests/test_bert_ner.py
-pytest tests/test_t5_advanced_ner.py
+pytest tests/test_models.py
 ```
 
 4. Code quality:
@@ -117,23 +114,32 @@ flake8 .
 
 ## Model Architectures
 
-### BERT Model
-- Base: `bert-base-uncased`
-- Components:
-  - Pre-trained BERT base model
-  - Dropout layer for regularization
-  - Linear classification head
+### BERT Model (Base)
+The base BERT model implements a dual-task architecture for both NER and document classification:
+- **Architecture**: BERT-base-uncased with additional classification heads
+- **NER Head**: Token-level classification for entity recognition
+- **Document Head**: Sequence-level classification using [CLS] token
+- **Features**:
+  - Shared BERT encoder for both tasks
+  - Dropout regularization
+  - Multi-task learning optimization
 
-### T5 Model
-- Base: `t5-base`
-- Components:
-  - T5 encoder-only architecture
-  - Bilateral Feature Enhancement layer
-  - Configurable dropout rates:
-    - Attention dropout
-    - Hidden state dropout
-    - Output dropout
-  - Optional encoder layer freezing
+### Advanced T5 Model
+The T5-based model incorporates several advanced features for enhanced performance:
+- **Architecture**: T5 encoder-only with bilateral feature enhancement
+- **Key Components**:
+  - Bilateral Feature Enhancement: Captures both left and right context
+  - Pre/Post Layer Normalization
+  - Multi-level dropout strategy
+  - Configurable attention patterns
+- **Advanced Features**:
+  - Adaptive layer freezing during training
+  - Attention map visualization
+  - Context-aware token representations
+
+## Example Usage
+
+For detailed examples and usage patterns, refer to our Jupyter notebooks [`ner_document_classification.ipynb`] in the `notebooks/` directory
 
 ## Training Process
 
@@ -150,8 +156,6 @@ flake8 .
 
 3. Visualization:
    - Training/validation loss curves
-   - Attention pattern visualization (T5)
-   - Performance metrics across dataset sizes
 
 ## License
 
